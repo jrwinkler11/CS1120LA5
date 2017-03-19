@@ -11,6 +11,8 @@ public interface IRover {
 	public MapCreator getMapCreator();
 	public void setMapCreator(MapCreator mc);
 	public ArrayList<IArea> getPath(int startRow, int startCol);
-	public void setPath(int startRow, int startCol);
-	public double calculateEnergy();
+	public void setPath(ArrayList<IArea> path);
+	public String getAnalysis();
+	public void setAnalysis(String analysis);
+	public String toString();
 }
