@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class EnergyAnalyzer implements IRover {
 
-	MapCreator mc = new MapCreator();
+	MapCreator mc ;
 	ArrayList<IArea> path = new ArrayList<>();
 	private String analysis;
 	
@@ -52,5 +52,16 @@ public class EnergyAnalyzer implements IRover {
 	public void setAnalysis(String analysis) {
 		this.analysis = analysis;
 	}
+
+
+	@Override
+	public void analyzePath() {
+		double totalEnergy = 0;
+		for (int i = 0; i < path.size(); i++) {
+			totalEnergy = totalEnergy + path.get(i).calcConsumedEnergy();
+		}
+		this.setAnalysis("Energy Consumed: " + totalEnergy);
+	}
+
 
 }

@@ -15,4 +15,5 @@ public interface IRover {
 	public String getAnalysis();
 	public void setAnalysis(String analysis);
 	public String toString();
+	public void analyzePath();
 }

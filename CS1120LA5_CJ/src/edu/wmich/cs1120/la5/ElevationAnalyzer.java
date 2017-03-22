@@ -49,5 +49,14 @@ public class ElevationAnalyzer implements IRover {
 	public void setAnalysis(String analysis) {
 		this.analysis = analysis;
 	}
+	
+	@Override
+	public void analyzePath() {
+		double elevation = 0;
+		for (int i = 0; i < path.size(); i++) {
+			elevation = elevation + path.get(i).getElevation();
+		}
+		this.setAnalysis("Elevation: " + elevation);
+	}
 
 }

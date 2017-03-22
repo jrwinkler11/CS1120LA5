@@ -50,4 +50,13 @@ public class RadiationAnalyzer implements IRover {
 		this.analysis = analysis;
 	}
 
+	@Override
+	public void analyzePath() {
+		double totalRadiation = 0;
+		for (int i = 0; i < path.size(); i++) {
+			totalRadiation = totalRadiation + path.get(i).getRadiation();
+		}
+		this.setAnalysis("Radiation: " + totalRadiation);
+	}
+
 }
