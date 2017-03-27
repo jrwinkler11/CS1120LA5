@@ -2,7 +2,7 @@ package edu.wmich.cs1120.la5;
 
 /**
  * Interface for Area class
- * @author Jake
+ * @author Jake and Chase
  */
 
 public interface IArea {

@@ -2,6 +2,11 @@ package edu.wmich.cs1120.la5;
 
 import java.util.ArrayList;
 
+/**
+ * This class uses the IRover interface and analyzes the radiation of an area
+ * @author Jake
+ *
+ */
 public class RadiationAnalyzer implements IRover {
 
 	ArrayList<IArea> path = new ArrayList<>();

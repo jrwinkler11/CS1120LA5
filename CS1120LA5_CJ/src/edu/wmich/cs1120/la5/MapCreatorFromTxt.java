@@ -4,6 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+
+/**
+ * This class utilizes Scanner to read a text file and create an object map
+ * @author Jake and Chase
+ *
+ */
 public class MapCreatorFromTxt implements IMapCreator {
 
 	TerrainScanner scanner = new TerrainScanner();

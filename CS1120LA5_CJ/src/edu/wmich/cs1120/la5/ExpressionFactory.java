@@ -1,10 +1,14 @@
 package edu.wmich.cs1120.la5;
 
+/**
+ * This class creates BinaryExpression objects which executes the expression using the 2 values and the operation 
+ * @author Jake and Chase
+ *
+ */
 public class ExpressionFactory {
 
 	/**
-	 * Reads file using Binary
-	 * 
+	 * This method executes the expressions
 	 * @param operator
 	 * @param val1
 	 * @param val2

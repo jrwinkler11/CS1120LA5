@@ -2,7 +2,7 @@ package edu.wmich.cs1120.la5;
 
 /**
  * Subclass of Area class, uses less energy than HighArea
- * @author Jake
+ * @author Jake and Chase
  * 
  */
 

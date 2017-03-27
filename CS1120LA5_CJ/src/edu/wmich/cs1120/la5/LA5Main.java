@@ -1,14 +1,19 @@
 /*
- * Name CS1120 Lab3
- * Author: Jake Winkler
- * Date: Feb 22, 2017
- * Reference: Jia Guo
+ * Name CS1120 Lab5
+ * Author: Jake Winkler and Chase Myers
+ * Date: Mar 29, 2017
  */
 
 package edu.wmich.cs1120.la5;
 
 import edu.wmich.cs1120.la5.gui.MainWindow;
 
+/**
+ * 
+ * Main class for program, only starts the GUI
+ * @author Jake and Chase
+ *
+ */
 public class LA5Main {
 
 	public static void main(String[] args) {

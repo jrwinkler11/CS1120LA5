@@ -2,7 +2,7 @@ package edu.wmich.cs1120.la5;
 
 /**
  * Area class constructs Area objects which are used my the MapCreator class
- * @author Jake
+ * @author Jake and Chase
  */
 
 public class Area implements IArea {

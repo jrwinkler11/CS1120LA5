@@ -2,6 +2,11 @@ package edu.wmich.cs1120.la5;
 
 import java.util.ArrayList;
 
+/**
+ * This class uses the IRover interface and analyzes the elevation of an area
+ * @author Jake and Chase
+ *
+ */
 public class ElevationAnalyzer implements IRover {
 
 	ArrayList<IArea> path = new ArrayList<>();

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Interface for Rover class
- * @author Jake
+ * @author Jake and Chase
  */
 
 public interface IRover {

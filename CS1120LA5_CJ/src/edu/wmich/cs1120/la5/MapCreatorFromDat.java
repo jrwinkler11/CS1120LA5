@@ -8,12 +8,17 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Scanner;
 
+/**
+ * This class utilizes RandomAccessFile to read a binary dat file and create an object map
+ * @author Jake and Chase
+ *
+ */
 public class MapCreatorFromDat implements IMapCreator {
 
 	TerrainScanner scanner = new TerrainScanner();
 
 	/**
-	 * This method reads the text file and creates a 2D array of Area objects
+	 * This method reads the dat file and creates a 2D array of Area objects
 	 * (either high or low)
 	 * 
 	 * @param fileName
@@ -62,6 +67,8 @@ public class MapCreatorFromDat implements IMapCreator {
 			value2 = randomFile.readInt();
 			expression = ExpressionFactory.getExpression(ch, value1, value2);
 			value = expression.getValue();
+			
+			
 		}
 		//
 		// mainLoop: for (int r = 0; r < 10; r++) {

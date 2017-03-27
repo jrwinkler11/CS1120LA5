@@ -1,5 +1,11 @@
 package edu.wmich.cs1120.la5;
 
+
+/**
+ * IOperation interface that's used by the Addition and Subtraction classes
+ * @author Jake and Chase
+ *
+ */
 public interface IOperation {
 
 	
