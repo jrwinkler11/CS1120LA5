@@ -4,25 +4,9 @@ import java.util.ArrayList;
 
 public class RadiationAnalyzer implements IRover {
 
-	MapCreator mc = new MapCreator();
 	ArrayList<IArea> path = new ArrayList<>();
 	private String analysis;
 
-	/**
-	 * Getter method for MapCreator
-	 * 
-	 * @return MapCreator
-	 */
-	public MapCreator getMapCreator() {
-		return this.mc;
-	}
-
-	/**
-	 * Setter method for MapCreator
-	 */
-	public void setMapCreator(MapCreator mc) {
-		this.mc = mc;
-	}
 
 	/**
 	 * Getter method for solution path

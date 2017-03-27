@@ -8,8 +8,6 @@ import java.util.ArrayList;
  */
 
 public interface IRover {
-	public MapCreator getMapCreator();
-	public void setMapCreator(MapCreator mc);
 	public ArrayList<IArea> getPath(int startRow, int startCol);
 	public void setPath(ArrayList<IArea> path);
 	public String getAnalysis();

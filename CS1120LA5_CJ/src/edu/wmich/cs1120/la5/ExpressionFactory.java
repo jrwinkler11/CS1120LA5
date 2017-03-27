@@ -11,7 +11,12 @@ public class ExpressionFactory {
 	 * @return
 	 */
 	public static IExpression getExpression(char operator, int val1, int val2) {
-		return null;
+		if (operator == '+') {
+			return  new BinaryExpression(new Literal(val1), new Literal(val2), new Addition());
+		} else {
+			return  new BinaryExpression(new Literal(val1), new Literal(val2), new Subtraction());
+
+		}
 	}
 
 }

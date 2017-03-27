@@ -5,6 +5,7 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.Scanner;
 
 public class MapCreatorFromDat implements IMapCreator {
@@ -21,49 +22,91 @@ public class MapCreatorFromDat implements IMapCreator {
 	 *            int for the threshold from user
 	 */
 	public void scanTerrain(String fileName, int threshold) throws IOException {
-		Scanner inputFile = new Scanner(new File(fileName));
+		// Scanner inputFile = new Scanner(new File(fileName));
+
+		int itemSize = 6;
+
+		// File inputFile = new File(fileName);
 
 		Area[][] objectMap = new Area[10][10];
 
 		boolean endOfFile = false;
-		DataInputStream input = new DataInputStream(new FileInputStream(fileName));
+		// DataInputStream input = new DataInputStream(new
+		// FileInputStream(fileName));
+		RandomAccessFile randomFile = new RandomAccessFile(fileName, "r");
 
-		mainLoop: for (int r = 0; r < 10; r++) {
-			for (int c = 0; c < 10; c++) {
-				if (endOfFile)
-					break mainLoop;
+		String result = new String();
 
-				try {
-					double energyCost = input.readDouble();
-					double elevation = input.readDouble();
-					double radiation = input.readDouble();
-					char opperator = input.readChar();
-					int val1 = input.readInt();
-					int val2 = input.readInt();
+		double energyCost = randomFile.readDouble();
+		double elevation = randomFile.readDouble();
+		double radiation = randomFile.readDouble();
+		char ch = randomFile.readChar();
+		result += ch;
+		int value1 = randomFile.readInt();
+		int value2 = randomFile.readInt();
 
-					if (radiation >= 0.5 || (elevation > threshold * .5)) {
-						Area a = new HighArea();
-						a.setBasicEnergyCost(energyCost);
-						a.setElevation(elevation);
-						a.setRadiation(radiation);
-						objectMap[r][c] = a;
-					} else {
-						Area a = new LowArea();
-						a.setBasicEnergyCost(energyCost);
-						a.setElevation(elevation);
-						a.setRadiation(radiation);
-						objectMap[r][c] = a;
-					}
-				} catch (EOFException e) {
-					endOfFile = true;
-				}
-			}
+		IExpression expression = ExpressionFactory.getExpression(ch, value1, value2);
 
+		Integer value = expression.getValue();
+		
+		while (value != -1) {
+			randomFile.seek(value * 3);
+
+			energyCost = randomFile.readDouble();
+			elevation = randomFile.readDouble();
+			radiation = randomFile.readDouble();
+
+			ch = randomFile.readChar();
+			result += ch;
+			value1 = randomFile.readInt();
+			value2 = randomFile.readInt();
+			expression = ExpressionFactory.getExpression(ch, value1, value2);
+			value = expression.getValue();
 		}
+		//
+		// mainLoop: for (int r = 0; r < 10; r++) {
+		// for (int c = 0; c < 10; c++) {
+		// if (endOfFile)
+		// break mainLoop;
+		//
+		// try {
+		// double energyCost = f.readDouble();
+		// double elevation = f.readDouble();
+		// double radiation = f.readDouble();
+		// char opperator = f.readChar();
+		// int val1 = f.readInt();
+		// int val2 = f.readInt();
+		// IExpression expression = ExpressionFactory.getExpression(opperator,
+		// val1, val2);
+		// Integer value = expression.getValue();
+		//
+		// if (value <= -1)
+		// break mainLoop;
+		// f.seek(value * 3);
+		//
+		// if (radiation >= 0.5 || (elevation > threshold * .5)) {
+		// Area a = new HighArea();
+		// a.setBasicEnergyCost(energyCost);
+		// a.setElevation(elevation);
+		// a.setRadiation(radiation);
+		// objectMap[r][c] = a;
+		// } else {
+		// Area a = new LowArea();
+		// a.setBasicEnergyCost(energyCost);
+		// a.setElevation(elevation);
+		// a.setRadiation(radiation);
+		// objectMap[r][c] = a;
+		// }
+		// } catch (EOFException e) {
+		// endOfFile = true;
+		// }
+		// }
+		//
+		// }
 		System.out.println("\nDone.");
 		scanner.setTerrain(objectMap);
 
-		inputFile.close();
+		// inputFile.close();
 
 	}
 
