@@ -9,7 +9,9 @@ import java.io.RandomAccessFile;
 import java.util.Scanner;
 
 /**
- * This class utilizes RandomAccessFile to read a binary dat file and create an object map
+ * This class utilizes RandomAccessFile to read a binary dat file and create an
+ * object map
+ * 
  * @author Jake and Chase
  *
  */
@@ -53,22 +55,43 @@ public class MapCreatorFromDat implements IMapCreator {
 		IExpression expression = ExpressionFactory.getExpression(ch, value1, value2);
 
 		Integer value = expression.getValue();
-		
-		while (value != -1) {
-			randomFile.seek(value * 3);
 
-			energyCost = randomFile.readDouble();
-			elevation = randomFile.readDouble();
-			radiation = randomFile.readDouble();
+		for (int r = 0; r < 10; r++) {
+			for (int c = 0; c < 10; c++) {
 
-			ch = randomFile.readChar();
-			result += ch;
-			value1 = randomFile.readInt();
-			value2 = randomFile.readInt();
-			expression = ExpressionFactory.getExpression(ch, value1, value2);
-			value = expression.getValue();
-			
-			
+				if (value != -1) {
+
+					energyCost = randomFile.readDouble();
+					elevation = randomFile.readDouble();
+					radiation = randomFile.readDouble();
+
+					ch = randomFile.readChar();
+					
+					value1 = randomFile.readInt();
+					value2 = randomFile.readInt();
+					expression = ExpressionFactory.getExpression(ch, value1, value2);
+					value = expression.getValue();
+
+					if (radiation >= 0.5 || (elevation > threshold * .5)) {
+						Area a = new HighArea();
+						a.setBasicEnergyCost(energyCost);
+						a.setElevation(elevation);
+						a.setRadiation(radiation);
+						objectMap[r][c] = a;
+					} else {
+						Area a = new LowArea();
+						a.setBasicEnergyCost(energyCost);
+						a.setElevation(elevation);
+						a.setRadiation(radiation);
+						objectMap[r][c] = a;
+					}
+					
+					randomFile.seek(value * (Double.BYTES * 3 + Integer.BYTES * 2 + Character.BYTES));
+
+
+				}
+			} // end for loop
+
 		}
 		//
 		// mainLoop: for (int r = 0; r < 10; r++) {
@@ -113,6 +136,7 @@ public class MapCreatorFromDat implements IMapCreator {
 		System.out.println("\nDone.");
 		scanner.setTerrain(objectMap);
 
+		randomFile.close();
 		// inputFile.close();
 
 	}
