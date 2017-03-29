@@ -47,5 +47,9 @@ public class ElevationAnalyzer implements IRover {
 		}
 		this.setAnalysis("Elevation: " + elevation);
 	}
-
+	
+	@Override
+	public String toString() {
+		return "Elevation Information:";
+	}
 }

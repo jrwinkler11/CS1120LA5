@@ -50,6 +50,11 @@ public class EnergyAnalyzer implements IRover {
 		}
 		this.setAnalysis("Energy Consumed: " + totalEnergy);
 	}
+	
+	@Override
+	public String toString() {
+		return "Energy Information:";
+	}
 
 
 }

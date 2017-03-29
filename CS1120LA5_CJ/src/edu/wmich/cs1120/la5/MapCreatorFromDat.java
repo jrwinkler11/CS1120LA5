@@ -1,12 +1,8 @@
 package edu.wmich.cs1120.la5;
 
-import java.io.DataInputStream;
 import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.Scanner;
 
 /**
  * This class utilizes RandomAccessFile to read a binary dat file and create an
@@ -29,10 +25,12 @@ public class MapCreatorFromDat implements IMapCreator {
 	 *            int for the threshold from user
 	 */
 	public void scanTerrain(String fileName, int threshold) throws IOException {
-		Area[][] objectMap = new Area[10][10];
+		IArea[][] objectMap = new Area[10][10];
 
 		boolean endOfFile = false;
 		RandomAccessFile randomFile = new RandomAccessFile(fileName, "rw");
+		
+		System.out.println("File Opened");
 
 		double energyCost = randomFile.readDouble();
 		double elevation = randomFile.readDouble();
@@ -51,10 +49,7 @@ public class MapCreatorFromDat implements IMapCreator {
 
 				try {
 
-					if (value <= -1) {
-						endOfFile = true;
-						break;
-					}
+					
 
 					if (radiation >= 0.5 || (elevation > threshold * .5)) {
 						Area a = new HighArea();
@@ -68,6 +63,11 @@ public class MapCreatorFromDat implements IMapCreator {
 						a.setElevation(elevation);
 						a.setRadiation(radiation);
 						objectMap[r][c] = a;
+					}
+					
+					if (value <= -1) {
+						endOfFile = true;
+						break;
 					}
 
 					randomFile.seek(value * ((Double.BYTES * 3) + (Integer.BYTES * 2) + Character.BYTES));
