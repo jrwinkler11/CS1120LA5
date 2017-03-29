@@ -32,7 +32,7 @@ public class MapCreatorFromDat implements IMapCreator {
 		Area[][] objectMap = new Area[10][10];
 
 		boolean endOfFile = false;
-		RandomAccessFile randomFile = new RandomAccessFile(fileName, "r");
+		RandomAccessFile randomFile = new RandomAccessFile(fileName, "rw");
 
 		double energyCost = randomFile.readDouble();
 		double elevation = randomFile.readDouble();
@@ -42,34 +42,19 @@ public class MapCreatorFromDat implements IMapCreator {
 		int value2 = randomFile.readInt();
 		IExpression expression = ExpressionFactory.getExpression(ch, value1, value2);
 		Integer value = expression.getValue();
-
-		// while (value != -1) {
-		// randomFile.seek(value * 3);
-		//
-		// energyCost = randomFile.readDouble();
-		// elevation = randomFile.readDouble();
-		// radiation = randomFile.readDouble();
-		//
-		// ch = randomFile.readChar();
-		// result += ch;
-		// value1 = randomFile.readInt();
-		// value2 = randomFile.readInt();
-		// expression = ExpressionFactory.getExpression(ch, value1, value2);
-		// value = expression.getValue();
-		//
-		//
-		// }
-
-		mainLoop: for (int r = 0; r < 10; r++) {
+		for (int r = 0; r < 10; r++) {
+			if (endOfFile)
+				break;
 			for (int c = 0; c < 10; c++) {
 				if (endOfFile)
-					break mainLoop;
+					break;
 
 				try {
-					
-					if (value <= -1)
-						break mainLoop;
-					randomFile.seek(value * (Double.BYTES * 3) + (Integer.BYTES * 2) + Character.BYTES);
+
+					if (value <= -1) {
+						endOfFile = true;
+						break;
+					}
 
 					if (radiation >= 0.5 || (elevation > threshold * .5)) {
 						Area a = new HighArea();
@@ -84,16 +69,27 @@ public class MapCreatorFromDat implements IMapCreator {
 						a.setRadiation(radiation);
 						objectMap[r][c] = a;
 					}
+
+					randomFile.seek(value * ((Double.BYTES * 3) + (Integer.BYTES * 2) + Character.BYTES));
+
+					energyCost = randomFile.readDouble();
+					elevation = randomFile.readDouble();
+					radiation = randomFile.readDouble();
+					ch = randomFile.readChar();
+					value1 = randomFile.readInt();
+					value2 = randomFile.readInt();
+					expression = ExpressionFactory.getExpression(ch, value1, value2);
+					value = expression.getValue();
+
 				} catch (EOFException e) {
 					endOfFile = true;
 				}
 			}
 
 		}
-		System.out.println("\nDone.");
 		scanner.setTerrain(objectMap);
 
-		// inputFile.close();
+		randomFile.close();
 
 	}
 
