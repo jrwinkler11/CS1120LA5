@@ -9,7 +9,9 @@ import java.io.RandomAccessFile;
 import java.util.Scanner;
 
 /**
- * This class utilizes RandomAccessFile to read a binary dat file and create an object map
+ * This class utilizes RandomAccessFile to read a binary dat file and create an
+ * object map
+ * 
  * @author Jake and Chase
  *
  */
@@ -27,89 +29,67 @@ public class MapCreatorFromDat implements IMapCreator {
 	 *            int for the threshold from user
 	 */
 	public void scanTerrain(String fileName, int threshold) throws IOException {
-		// Scanner inputFile = new Scanner(new File(fileName));
-
-		int itemSize = 6;
-
-		// File inputFile = new File(fileName);
-
 		Area[][] objectMap = new Area[10][10];
 
 		boolean endOfFile = false;
-		// DataInputStream input = new DataInputStream(new
-		// FileInputStream(fileName));
 		RandomAccessFile randomFile = new RandomAccessFile(fileName, "r");
-
-		String result = new String();
 
 		double energyCost = randomFile.readDouble();
 		double elevation = randomFile.readDouble();
 		double radiation = randomFile.readDouble();
 		char ch = randomFile.readChar();
-		result += ch;
 		int value1 = randomFile.readInt();
 		int value2 = randomFile.readInt();
-
 		IExpression expression = ExpressionFactory.getExpression(ch, value1, value2);
-
 		Integer value = expression.getValue();
-		
-		while (value != -1) {
-			randomFile.seek(value * 3);
 
-			energyCost = randomFile.readDouble();
-			elevation = randomFile.readDouble();
-			radiation = randomFile.readDouble();
+		// while (value != -1) {
+		// randomFile.seek(value * 3);
+		//
+		// energyCost = randomFile.readDouble();
+		// elevation = randomFile.readDouble();
+		// radiation = randomFile.readDouble();
+		//
+		// ch = randomFile.readChar();
+		// result += ch;
+		// value1 = randomFile.readInt();
+		// value2 = randomFile.readInt();
+		// expression = ExpressionFactory.getExpression(ch, value1, value2);
+		// value = expression.getValue();
+		//
+		//
+		// }
 
-			ch = randomFile.readChar();
-			result += ch;
-			value1 = randomFile.readInt();
-			value2 = randomFile.readInt();
-			expression = ExpressionFactory.getExpression(ch, value1, value2);
-			value = expression.getValue();
-			
-			
+		mainLoop: for (int r = 0; r < 10; r++) {
+			for (int c = 0; c < 10; c++) {
+				if (endOfFile)
+					break mainLoop;
+
+				try {
+					
+					if (value <= -1)
+						break mainLoop;
+					randomFile.seek(value * (Double.BYTES * 3) + (Integer.BYTES * 2) + Character.BYTES);
+
+					if (radiation >= 0.5 || (elevation > threshold * .5)) {
+						Area a = new HighArea();
+						a.setBasicEnergyCost(energyCost);
+						a.setElevation(elevation);
+						a.setRadiation(radiation);
+						objectMap[r][c] = a;
+					} else {
+						Area a = new LowArea();
+						a.setBasicEnergyCost(energyCost);
+						a.setElevation(elevation);
+						a.setRadiation(radiation);
+						objectMap[r][c] = a;
+					}
+				} catch (EOFException e) {
+					endOfFile = true;
+				}
+			}
+
 		}
-		//
-		// mainLoop: for (int r = 0; r < 10; r++) {
-		// for (int c = 0; c < 10; c++) {
-		// if (endOfFile)
-		// break mainLoop;
-		//
-		// try {
-		// double energyCost = f.readDouble();
-		// double elevation = f.readDouble();
-		// double radiation = f.readDouble();
-		// char opperator = f.readChar();
-		// int val1 = f.readInt();
-		// int val2 = f.readInt();
-		// IExpression expression = ExpressionFactory.getExpression(opperator,
-		// val1, val2);
-		// Integer value = expression.getValue();
-		//
-		// if (value <= -1)
-		// break mainLoop;
-		// f.seek(value * 3);
-		//
-		// if (radiation >= 0.5 || (elevation > threshold * .5)) {
-		// Area a = new HighArea();
-		// a.setBasicEnergyCost(energyCost);
-		// a.setElevation(elevation);
-		// a.setRadiation(radiation);
-		// objectMap[r][c] = a;
-		// } else {
-		// Area a = new LowArea();
-		// a.setBasicEnergyCost(energyCost);
-		// a.setElevation(elevation);
-		// a.setRadiation(radiation);
-		// objectMap[r][c] = a;
-		// }
-		// } catch (EOFException e) {
-		// endOfFile = true;
-		// }
-		// }
-		//
-		// }
 		System.out.println("\nDone.");
 		scanner.setTerrain(objectMap);
 
